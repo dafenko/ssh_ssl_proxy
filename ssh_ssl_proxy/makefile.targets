@@ -1,0 +1,9 @@
+install: ssh_ssl_proxy
+	gksudo "../scripts/install.sh install $$PWD"
+	  
+uninstall:
+	gksudo "../scripts/install.sh uninstall"
+	
+make_deb: ssh_ssl_proxy
+	/bin/bash -x ../scripts/install.sh make_deb $$PWD
+	  
