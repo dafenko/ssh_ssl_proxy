@@ -1,16 +1,31 @@
 /*
- * Configuration.cpp
- *
- *  Created on: Dec 20, 2015
- *      Author: dafe
- *
- *  Config file example:
- *      localhost=127.0.0.1
- *		localport=3333
- *		forward_host=192.168.2.13
- *		forward_port_ssh=22
- *		forward_port_ssl=443
- *
+  configuration.cpp
+
+   Created on: 6.3.2016
+       Author: Daniel Ferenci dafe@dafe.net
+
+ This file is part of ssh_ssl_proxy.
+
+ ssh_ssl_proxy is free software: you can redistribute it and/or modify
+ it under the terms of the GNU General Public License as published by
+ the Free Software Foundation, either version 3 of the License, or
+ (at your option) any later version.
+
+ ssh_ssl_proxy is distributed in the hope that it will be useful,
+ but WITHOUT ANY WARRANTY; without even the implied warranty of
+ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ GNU General Public License for more details.
+
+ You should have received a copy of the GNU General Public License
+ along with ssh_ssl_proxy.  If not, see <http://www.gnu.org/licenses/>.
+
+ Config file example:
+ 	 localhost=127.0.0.1
+     localport=3333
+ 	 forward_host=192.168.2.13
+ 	 forward_port_ssh=22
+ 	 forward_port_ssl=443
+
  */
 
 #include <boost/property_tree/ptree.hpp>

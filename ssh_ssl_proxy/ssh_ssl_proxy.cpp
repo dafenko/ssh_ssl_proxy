@@ -1,7 +1,36 @@
-/**
- *
- */
+/*
+ ssh_ssl_proxy.cpp
 
+ Created on: 6.3.2016
+ Author: Daniel Ferenci dafe@dafe.net
+
+ This file is part of ssh_ssl_proxy.
+
+ ssh_ssl_proxy is free software: you can redistribute it and/or modify
+ it under the terms of the GNU General Public License as published by
+ the Free Software Foundation, either version 3 of the License, or
+ (at your option) any later version.
+
+ ssh_ssl_proxy is distributed in the hope that it will be useful,
+ but WITHOUT ANY WARRANTY; without even the implied warranty of
+ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ GNU General Public License for more details.
+
+ You should have received a copy of the GNU General Public License
+ along with ssh_ssl_proxy.  If not, see <http://www.gnu.org/licenses/>.
+
+ Daniel Ferenci dafe@dafe.net 6.3.2016
+
+ This file modifies file:
+ */
+// daemon.cpp
+// ~~~~~~~~~~
+//
+// Copyright (c) 2003-2015 Christopher M. Kohlhoff (chris at kohlhoff dot com)
+//
+// Distributed under the Boost Software License, Version 1.0. (See accompanying
+// file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
+//
 #include <syslog.h>
 #include <signal.h>
 
@@ -38,7 +67,7 @@ int main(int argc, char* argv[]) {
 		// Make the process a new session leader. This detaches it from the
 		// terminal.
 		setsid();
-		// change dir to root to avaoi mounting issues
+		// change dir to root to avoid unmounted file system issues
 		chdir("/");
 
 		// The file mode creation mask is also inherited from the parent process.
