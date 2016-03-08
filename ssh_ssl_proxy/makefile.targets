@@ -5,5 +5,5 @@ uninstall:
 	gksudo "../scripts/install.sh uninstall"
 	
 make_deb: ssh_ssl_proxy
-	/bin/bash -x ../scripts/install.sh make_deb $$PWD
+	gksudo "/bin/bash -x ../scripts/install.sh make_deb $$PWD"
 	  
