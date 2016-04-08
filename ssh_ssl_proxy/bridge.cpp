@@ -199,7 +199,7 @@ namespace ssh_ssl_proxy
 		   {
 			 if (buffers[2] == 0x01) // definitely SSLv2
 			 {
-			   std::cout << "SSL v2.0 Handshake detected" << std::endl;
+			   //std::cout << "SSL v2.0 Handshake detected" << std::endl;
 			   return true;
 			 }
 		   }
@@ -210,16 +210,16 @@ namespace ssh_ssl_proxy
 		   {
 			 if (buffers[2]) // TLS v1.x
 			 {
-			   std::cout << "TLS v1.x Handshake detected" << std::endl;
+			   //std::cout << "TLS v1.x Handshake detected" << std::endl;
 			 }
 			 else // SSL v3.0
 			 {
-			   std::cout << "SSL v3.0 Handshake detected" << std::endl;
+			   //std::cout << "SSL v3.0 Handshake detected" << std::endl;
 			 }
 			 return true;
 		   }
 		 }
-		std::cout << "It is SSH or something else" << std::endl;
+		//std::cout << "It is SSH or something else" << std::endl;
 		return false;
 	}
 
@@ -231,12 +231,12 @@ namespace ssh_ssl_proxy
 		   unsigned char buffer[6];
 		   try
 		   {
-			   boost::asio::read(session_->downstream_socket(), boost::asio::buffer(buffer));
+			   boost::asio::read(session_->downstream_socket(), boost::asio::buffer(buffer, 6));
 			   upstream_port_ = isSSL(buffer) ?  upstream_port_ssl_ : upstream_port_ssh_;
 		   }
 		   catch (const boost::system::system_error &e)
 		   {
-			   std::cerr << "Error: " << e.what() << std::endl;
+			   std::cerr << "handle_accept Error1: " << e.what() << std::endl;
 			   return;
 		   }
 
@@ -248,7 +248,7 @@ namespace ssh_ssl_proxy
 		}
 		else
 		{
-		   std::cerr << "Error: " << error.message() << std::endl;
+		   std::cerr << "handle_accept Error2: " << error.message() << std::endl;
 		}
 	}
 }

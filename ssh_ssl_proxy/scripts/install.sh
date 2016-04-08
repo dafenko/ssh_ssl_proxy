@@ -15,7 +15,7 @@ function uninstall {
 }
 
 function make_deb {
-	PROJECT=sshsllproxy
+	PROJECT=sshsslproxy
 	VERSION=1.0-0
 	BASE_DIR=$1
 	#clean
