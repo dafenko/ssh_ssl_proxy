@@ -63,9 +63,6 @@ int main(int argc, char* argv[]) {
 		ssh_ssl_proxy::configuration config(argc, argv);
 		config.load();
 
-		pidfile pidf(config.pid_file());
-		pidf.write();
-
 		boost::asio::io_service ios;
 
 		ssh_ssl_proxy::bridge::acceptor acceptor(ios, config.local_host(),
@@ -112,6 +109,9 @@ int main(int argc, char* argv[]) {
 				return 1;
 			}
 		}
+
+		pidfile pidf(config.pid_file());
+		pidf.write();
 
 		// Close the standard streams. This decouples the daemon from the terminal
 		// that started it.

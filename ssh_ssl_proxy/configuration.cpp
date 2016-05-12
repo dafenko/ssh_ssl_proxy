@@ -57,7 +57,7 @@ void configuration::load() {
 				pt.get<std::string>("forward_port_ssh").c_str()));
 		m_forward_port_ssl = static_cast<unsigned short>(::atoi(
 				pt.get<std::string>("forward_port_ssl").c_str()));
-		m_pid_file = pt.get<std::string>("pidfile");
+		m_pid_file = pt.get<std::string>("pid_file");
 		return;
 	}
 	if (m_argc == 4) {
