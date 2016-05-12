@@ -33,15 +33,38 @@
 //
 #include <syslog.h>
 #include <signal.h>
+#include <string>
+#include <fstream>
 
 #include "ssh_ssl_proxy.h"
 #include "configuration.h"
 #include "bridge.h"
 
+class pidfile
+{
+public:
+	pidfile(const std::string file_path) : m_pidfile(file_path) {}
+	void write() {
+		// create pid file
+		std::ofstream out(m_pidfile.data(), std::ios::trunc | std::ios::out);
+		if( out.good() ) {
+			out << getpid() << std::endl;
+		} else {
+			syslog(LOG_ERR | LOG_USER,
+				"ssh_ssl_proxy: Can not write to pid file: %s", m_pidfile.data());
+		}
+	}
+
+private:
+	std::string m_pidfile;
+};
 int main(int argc, char* argv[]) {
 	try {
 		ssh_ssl_proxy::configuration config(argc, argv);
 		config.load();
+
+		pidfile pidf(config.pid_file());
+		pidf.write();
 
 		boost::asio::io_service ios;
 
@@ -68,7 +91,11 @@ int main(int argc, char* argv[]) {
 		// terminal.
 		setsid();
 		// change dir to root to avoid unmounted file system issues
-		chdir("/");
+		if (chdir("/") != 0) {
+			syslog(LOG_ERR | LOG_USER,
+					"ssh_ssl_proxy: chdir failed.");
+			return 1;
+		}
 
 		// The file mode creation mask is also inherited from the parent process.
 		// We don't want to restrict the permissions on files created by the
@@ -115,6 +142,8 @@ int main(int argc, char* argv[]) {
 					"ssh_ssl_proxy: Unable to dup output descriptor: %m");
 			return 1;
 		}
+
+
 
 		// Inform the io_service that we have finished becoming a daemon. The
 		// io_service uses this opportunity to create any internal file descriptors

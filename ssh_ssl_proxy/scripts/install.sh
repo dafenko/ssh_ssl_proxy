@@ -31,6 +31,8 @@ function make_deb {
 	cp -f $BASE_DIR/../ssh_ssl_proxy.conf $BASE_DIR/"$PROJECT"_"$VERSION"/etc/
 	#create DEBIAN controll
 	mkdir $BASE_DIR/"$PROJECT"_"$VERSION"/DEBIAN
+	cp -f $BASE_DIR/../scripts/DEBIAN/postinst $BASE_DIR/"$PROJECT"_"$VERSION"/DEBIAN/
+	cp -f $BASE_DIR/../scripts/DEBIAN/postrm $BASE_DIR/"$PROJECT"_"$VERSION"/DEBIAN/ 
 	cat > $BASE_DIR/"$PROJECT"_"$VERSION"/DEBIAN/control << _DESC
 Package: $PROJECT
 Version: $VERSION

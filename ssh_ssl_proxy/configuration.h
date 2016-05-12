@@ -39,6 +39,7 @@ public:
 	std::string &forward_host(){return m_forward_host;};
 	unsigned short forward_port_ssh(){return m_forward_port_ssh;};
 	unsigned short forward_port_ssl(){return m_forward_port_ssl;};
+	std::string &pid_file(){return m_pid_file;}
 private:
 	int m_argc;
 	char ** m_argv;
@@ -47,6 +48,7 @@ private:
 	std::string m_forward_host;
 	unsigned short  m_forward_port_ssh;
 	unsigned short  m_forward_port_ssl;
+	std::string m_pid_file;
 };
 
 } /* namespace Configuration */

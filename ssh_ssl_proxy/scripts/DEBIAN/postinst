@@ -1,0 +1,7 @@
+#!/bin/sh
+ 
+# Source debconf library.
+. /usr/share/debconf/confmodule
+ 
+/usr/sbin/update-rc.d ssh_ssl_proxy defaults
+/usr/sbin/update-rc.d ssh_ssl_proxy start 20 2 3 4 5 . stop 20 0 1 6 .

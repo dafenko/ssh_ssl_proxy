@@ -223,6 +223,30 @@ namespace ssh_ssl_proxy
 		return false;
 	}
 
+    template <typename SyncReadStream, typename MutableBufferSequence>
+    void bridge::acceptor::readWithTimeout(SyncReadStream& s, const MutableBufferSequence& buffers, const boost::asio::deadline_timer::duration_type& expiry_time)
+    {
+        boost::optional<boost::system::error_code> timer_result;
+        boost::asio::deadline_timer timer(s.get_io_service());
+        timer.expires_from_now(expiry_time);
+        timer.async_wait([&timer_result] (const boost::system::error_code& error) { timer_result.reset(error); });
+
+        boost::optional<boost::system::error_code> read_result;
+        boost::asio::async_read(s, buffers, [&read_result] (const boost::system::error_code& error, size_t) { read_result.reset(error); });
+
+        s.get_io_service().reset();
+        while (s.get_io_service().run_one())
+        {
+            if (read_result)
+                timer.cancel();
+            else if (timer_result)
+                s.cancel();
+        }
+
+        if (*read_result)
+            throw boost::system::system_error(*read_result);
+    }
+
 	void bridge::acceptor::handle_accept(const boost::system::error_code& error)
 	{
 		if (!error)
@@ -231,7 +255,8 @@ namespace ssh_ssl_proxy
 		   unsigned char buffer[6];
 		   try
 		   {
-			   boost::asio::read(session_->downstream_socket(), boost::asio::buffer(buffer, 6));
+			   this->readWithTimeout(session_->downstream_socket(), boost::asio::buffer(buffer, 6), boost::posix_time::seconds(5));
+			   //boost::asio::read(session_->downstream_socket(), boost::asio::buffer(buffer, 6));
 			   upstream_port_ = isSSL(buffer) ?  upstream_port_ssl_ : upstream_port_ssh_;
 		   }
 		   catch (const boost::system::system_error &e)

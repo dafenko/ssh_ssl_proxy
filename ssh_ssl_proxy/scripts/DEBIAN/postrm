@@ -1,0 +1,6 @@
+#!/bin/sh
+ 
+# Source debconf library.
+. /usr/share/debconf/confmodule
+
+/usr/sbin/update-rc.d -f ssh_ssl_proxy remove

@@ -64,6 +64,7 @@
  */
 
 #include "ssh_ssl_proxy.h"
+#include "boost/optional/optional.hpp"
 
 namespace ssh_ssl_proxy {
 namespace ip = boost::asio::ip;
@@ -135,6 +136,9 @@ public:
 	private:
 		bool isSSL(const unsigned char * buffers);
 		void handle_accept(const boost::system::error_code& error);
+		template <typename SyncReadStream, typename MutableBufferSequence>
+		    void readWithTimeout(SyncReadStream& s, const MutableBufferSequence& buffers, const boost::asio::deadline_timer::duration_type& expiry_time);
+
 
 		boost::asio::io_service& io_service_;
 		ip::address_v4 localhost_address;
