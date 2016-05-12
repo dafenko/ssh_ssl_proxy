@@ -60,6 +60,7 @@
 /*
 
  6.3.2016 dafe@dafe.net added detection of ssl and ssh connection
+ 12.5.2016 dafe@dafe.net fixed stuck bug (by adding timeout to synchronous read of first 6 bytes)
  bool isSSL(const unsigned char * buffers); - based on
  http://cboard.cprogramming.com/networking-device-communication/166336-detecting-ssl-tls-client-handshake.html
 */
